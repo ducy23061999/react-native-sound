@@ -242,6 +242,7 @@ public class RNSoundModule extends ReactContextBaseJavaModule implements AudioMa
           callbackWasCalled = true;
           try {
             callback.invoke(true);
+	    player.release();
           } catch (Exception e) {
               //Catches the exception: java.lang.RuntimeException·Illegal callback invocation from native module
           }
