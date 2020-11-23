@@ -210,7 +210,7 @@ public class RNSoundModule extends ReactContextBaseJavaModule implements AudioMa
 
   @ReactMethod
   public void play(final Double key, final Callback callback) {
-    MediaPlayer player = this.playerPool.get(key);
+    final MediaPlayer player = this.playerPool.get(key);
     if (player == null) {
       setOnPlay(false, key);
       if (callback != null) {
