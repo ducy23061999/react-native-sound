@@ -242,7 +242,7 @@ public class RNSoundModule extends ReactContextBaseJavaModule implements AudioMa
           callbackWasCalled = true;
           try {
             callback.invoke(true);
-	    player.release();
+            player.release();
           } catch (Exception e) {
               //Catches the exception: java.lang.RuntimeException·Illegal callback invocation from native module
           }
@@ -284,10 +284,12 @@ public class RNSoundModule extends ReactContextBaseJavaModule implements AudioMa
   @ReactMethod
   public void stop(final Double key, final Callback callback) {
     MediaPlayer player = this.playerPool.get(key);
-    if (player != null && player.isPlaying()) {
-      player.pause();
-      player.seekTo(0);
-    }
+    if (player != null) {
+      if (player.isPlaying()) {
+        player.pause();
+        player.seekTo(0);
+      };
+    };
 
     // Release audio focus in Android system
     if (!this.mixWithOthers && key == this.focusedPlayerKey) {
@@ -310,7 +312,6 @@ public class RNSoundModule extends ReactContextBaseJavaModule implements AudioMa
   public void release(final Double key) {
     MediaPlayer player = this.playerPool.get(key);
     if (player != null) {
-      player.reset();
       player.release();
       this.playerPool.remove(key);
 
@@ -329,7 +330,6 @@ public class RNSoundModule extends ReactContextBaseJavaModule implements AudioMa
       Map.Entry entry = (Map.Entry)it.next();
       MediaPlayer player = (MediaPlayer)entry.getValue();
       if (player != null) {
-        player.reset();
         player.release();
       }
       it.remove();
